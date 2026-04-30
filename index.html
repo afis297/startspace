@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>New Tab</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <input type="file" id="wallpaper-input" accept="image/*" style="display: none;">
+
+    <div id="bottom-panel">
+        <div class="dock-section">
+            <div class="dock-item" id="dock-add" title="Добавить виджет"><span>➕</span></div>
+            <div class="dock-divider"></div>
+        </div>
+        <div id="dock-widgets-container"></div>
+        <div class="dock-section">
+            <div class="dock-divider"></div>
+            <div class="dock-item" id="dock-settings" title="Настройки"><span>⚙️</span></div>
+        </div>
+    </div>
+
+    <div id="widget-menu" class="hidden">
+        <div class="menu-header">
+            <span>Выберите виджет</span>
+            <button id="close-widget-menu" title="Закрыть">×</button>
+        </div>
+        <div class="menu-tabs">
+            <div class="menu-tab active" data-category="all">Все</div>
+            <div class="menu-tab" data-category="productivity">Работа</div>
+            <div class="menu-tab" data-category="info">Инфо</div>
+            <div class="menu-tab" data-category="fun">Развлечения</div>
+        </div>
+        <div id="menu-items"></div>
+        <div class="window-resize-handle"></div>
+    </div>
+
+    <div id="settings-panel" class="hidden">
+        <div class="settings-header" id="settings-header">
+            <span>⚙️ Настройки</span>
+            <button id="close-settings" title="Закрыть">×</button>
+        </div>
+        <div class="settings-tabs">
+            <div class="settings-tab active" data-tab="general">🎨 Общие</div>
+            <div class="settings-tab" data-tab="dock">📦 Dock</div>
+            <div class="settings-tab" data-tab="wallpaper">🖼️ Обои</div>
+            <div class="settings-tab" data-tab="weather">🌤️ Погода</div>
+            <div class="settings-tab" data-tab="interface">🔧 Интерфейс</div>
+        </div>
+        <div class="settings-body" id="settings-content"></div>
+        <div class="window-resize-handle"></div>
+    </div>
+
+    
+
+    <div id="widget-context-menu" class="hidden draggable-window">
+        <div class="window-header" id="ctx-menu-header">
+            <span>⚙️ Свойства виджета</span>
+            <button id="ctx-close-btn" title="Закрыть">×</button>
+        </div>
+        <div class="window-content" id="widget-style-content"></div>
+        
+        <div id="clock-specific-settings" class="hidden" style="padding: 0 16px;">
+            <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 10px 0;">
+            <div class="ctx-row">
+                <label>Тип часов</label>
+                <select id="ctx-clock-mode">
+                    <option value="digital">Цифровые</option>
+                    <option value="analog">Аналоговые</option>
+                </select>
+            </div>
+            <div class="ctx-row">
+                <label>Формат времени</label>
+                <select id="ctx-clock-format">
+                    <option value="24">24 часа</option>
+                    <option value="12">12 часов</option>
+                </select>
+            </div>
+            <div class="ctx-row">
+                <label><input type="checkbox" id="ctx-show-seconds"> Показать секунды</label>
+            </div>
+        </div>
+        <!-- Добавить внутрь #context-menu в index.html -->
+        <div class="ctx-section">
+            <label for="ctx-todo-repeat">Повторять (дней)</label>
+            <input type="number" id="ctx-todo-repeat" min="1" value="">
+        </div>
+        <div id="weather-specific-settings" class="hidden">
+            <div class="ctx-row">
+                <label>Город</label>
+                <input type="text" id="ctx-weather-city">
+            </div>
+            <div class="ctx-row">
+                <label>Источник погоды</label>
+                <select id="ctx-weather-source">
+                    <option value="openMeteo">Open-Meteo (бесплатно)</option>
+                    <option value="wttrIn">wttr.in (бесплатно)</option>
+                    <option value="openWeatherMap">OpenWeatherMap (требует ключ)</option>
+                    <option value="weatherAPI">WeatherAPI (требует ключ)</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="countdown-specific-settings" class="hidden" style="padding: 0 16px;">
+            <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 10px 0;">
+            <div class="ctx-row">
+                <label>Название события</label>
+                <input type="text" id="ctx-countdown-title" placeholder="Например: Новый год" style="width:100%; padding:6px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); background:rgba(49,50,68,0.5); color:#cdd6f4;">
+            </div>
+            <div class="ctx-row">
+                <label>Дата события</label>
+                <input type="date" id="ctx-countdown-date" style="width:100%; padding:6px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); background:rgba(49,50,68,0.5); color:#cdd6f4;">
+            </div>
+        </div>
+        
+        <div id="link-specific-settings" class="hidden">
+            <div class="ctx-row">
+                <label>Название</label>
+                <input type="text" id="ctx-link-text" placeholder="Моя ссылка">
+            </div>
+            <div class="ctx-row">
+                <label>URL</label>
+                <input type="url" id="ctx-link-url" placeholder="https://example.com">
+            </div>
+            <div class="ctx-row">
+                <label>Иконка (emoji)</label>
+                <input type="text" id="ctx-link-icon" placeholder="🔗" maxlength="2">
+            </div>
+        </div>
+
+        <div style="padding: 0 16px 12px;">
+            <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 10px 0;">
+            <div class="ctx-row">
+                <label>Масштаб окна</label>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <input type="range" id="ctx-window-scale" min="0.5" max="1.5" step="0.05" value="1">
+                    <span id="ctx-window-scale-val">100%</span>
+                </div>
+            </div>
+            <div class="ctx-row">
+                <label>Размер шрифта окна</label>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <input type="range" id="ctx-window-font-size" min="10" max="20" step="1" value="14">
+                    <span id="ctx-window-font-size-val">14px</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="window-resize-handle"></div>
+    </div>
+
+    <div id="confirm-dialog" class="hidden">
+        <div class="confirm-box">
+            <div class="confirm-title">Удалить виджет?</div>
+            <div class="confirm-text">Это действие нельзя отменить.</div>
+            <div class="confirm-btns">
+                <button id="confirm-cancel">Отмена</button>
+                <button id="confirm-ok">Удалить</button>
+            </div>
+        </div>
+    </div>
+        <!-- Настройки виджета Ссылка -->
+    <div id="link-specific-settings" class="hidden">
+        <div class="ctx-row">
+            <label>Название</label>
+            <input type="text" id="ctx-link-text" placeholder="Моя ссылка">
+        </div>
+        <div class="ctx-row">
+            <label>URL</label>
+            <input type="url" id="ctx-link-url" placeholder="https://example.com">
+        </div>
+        <div class="ctx-row">
+            <label>Иконка (emoji)</label>
+            <input type="text" id="ctx-link-icon" placeholder="🔗" maxlength="2">
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
