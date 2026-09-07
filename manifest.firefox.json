@@ -1,0 +1,63 @@
+{
+  "manifest_version": 3,
+  "name": "Startspace",
+  "version": "5.0.0",
+  "description": "Персональная стартовая страница браузера с виджетами, темами и свободной раскладкой.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "startspace@local",
+      "strict_min_version": "128.0"
+    }
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "action": {
+    "default_title": "Открыть Startspace",
+    "default_icon": {
+      "16": "assets/icons/icon-16.png",
+      "32": "assets/icons/icon-32.png",
+      "48": "assets/icons/icon-48.png",
+      "128": "assets/icons/icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "assets/icons/icon-16.png",
+    "32": "assets/icons/icon-32.png",
+    "48": "assets/icons/icon-48.png",
+    "128": "assets/icons/icon-128.png"
+  },
+  "background": {
+    "page": "src/app/background-firefox.html"
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "scripting"
+  ],
+  "optional_host_permissions": [
+    "https://api.open-meteo.com/*",
+    "https://geocoding-api.open-meteo.com/*",
+    "https://api.exchangerate-api.com/*",
+    "https://api.mymemory.translated.net/*",
+    "https://www.youtube.com/*",
+    "https://www.youtube-nocookie.com/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/overlay/web-panel.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/audio/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

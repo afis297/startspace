@@ -1,0 +1,15 @@
+/* Uploaded wallpapers use a dedicated image element, independent from theme background cascades. */
+#app-shell { isolation: isolate; }
+#wallpaper-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  object-fit: cover;
+  object-position: center;
+}
+:root[data-has-wallpaper="true"] #wallpaper-layer { display: block; }
+:root[data-has-wallpaper="true"] #workspace { z-index: 1; background: transparent !important; }

@@ -1,0 +1,137 @@
+/* Keyboard-first command palette. Colors derive exclusively from the active theme tokens. */
+.command-palette-overlay {
+  position: fixed;
+  z-index: 8600;
+  inset: 0;
+  display: grid;
+  place-items: start center;
+  padding: min(18vh, 150px) 16px 16px;
+  background: color-mix(in srgb, var(--bg-0) 72%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+.command-palette-dialog {
+  position: relative;
+  width: min(610px, 100%);
+  overflow: hidden;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 14%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in srgb, var(--accent) 10%, transparent) 1px, transparent 1px),
+    var(--surface-strong);
+  background-size: 18px 18px;
+  box-shadow: 0 28px 80px var(--shadow), inset 0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.command-palette-heading { padding: 17px 46px 11px 18px; }
+.command-palette-kicker {
+  margin: 0 0 7px;
+  color: var(--accent);
+  font: 760 10px/1.3 var(--font-mono);
+  letter-spacing: .13em;
+}
+.command-palette-heading h2 {
+  margin: 0;
+  color: var(--text);
+  font: 760 21px/1.1 var(--font-display);
+  letter-spacing: -.03em;
+}
+
+.command-palette-close {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  display: grid;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  color: var(--muted);
+  background: transparent;
+  font: 400 19px/1 var(--font-mono);
+}
+.command-palette-close:hover,
+.command-palette-close:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+  outline: none;
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
+}
+
+.command-palette-input {
+  width: calc(100% - 36px);
+  min-height: 42px;
+  margin: 0 18px 10px;
+  padding: 0 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 62%, var(--line));
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  background: color-mix(in srgb, var(--surface) 88%, var(--bg-0));
+  font: 600 13px/1.2 var(--font-mono);
+}
+.command-palette-input::placeholder { color: var(--muted); opacity: .9; }
+.command-palette-input:focus { border-color: var(--accent); outline: 1px solid color-mix(in srgb, var(--accent) 38%, transparent); }
+
+.command-palette-list {
+  display: grid;
+  max-height: min(48vh, 380px);
+  overflow: auto;
+  border-top: 1px solid var(--line);
+}
+.command-palette-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  width: 100%;
+  min-height: 58px;
+  padding: 10px 18px;
+  align-items: center;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  color: var(--text);
+  text-align: left;
+  background: transparent;
+}
+.command-palette-item:hover,
+.command-palette-item.is-active,
+.command-palette-item:focus-visible {
+  color: var(--text);
+  outline: none;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+.command-palette-copy { display: grid; gap: 3px; }
+.command-palette-copy strong { color: currentColor; font: 720 12px/1.3 var(--font-mono); }
+.command-palette-copy small { color: var(--muted); font: 500 11px/1.35 var(--font-mono); }
+.command-palette-item.is-active small,
+.command-palette-item:hover small { color: color-mix(in srgb, var(--text) 80%, var(--accent)); }
+.command-palette-item kbd,
+.command-palette-enter {
+  min-width: 26px;
+  padding: 4px 6px;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
+  border-radius: var(--radius-xs);
+  color: var(--accent);
+  text-align: center;
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  font: 700 10px/1 var(--font-mono);
+}
+.command-palette-empty { margin: 0; padding: 26px 18px; color: var(--muted); text-align: center; font: 600 12px/1.4 var(--font-mono); }
+.command-palette-help { margin: 0; padding: 10px 18px; color: var(--muted); border-top: 1px solid var(--line); font: 600 10px/1.4 var(--font-mono); }
+
+@media (max-width: 520px) {
+  .command-palette-overlay { padding: 12px; place-items: center; }
+  .command-palette-heading { padding-inline: 15px 42px; }
+  .command-palette-input { width: calc(100% - 30px); margin-inline: 15px; }
+  .command-palette-item { padding-inline: 15px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .command-palette-overlay { backdrop-filter: none; }
+}

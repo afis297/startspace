@@ -1,0 +1,124 @@
+.toast-region {
+  position: fixed;
+  z-index: 1200;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(82px, calc(66px + env(safe-area-inset-bottom)));
+  display: grid;
+  width: min(350px, calc(100vw - 36px));
+  gap: 7px;
+  pointer-events: none;
+}
+
+.notification {
+  display: grid;
+  grid-template-columns: 25px minmax(0, 1fr) 22px;
+  align-items: start;
+  gap: 10px;
+  min-width: 0;
+  padding: 11px 10px 11px 12px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  background: var(--surface-strong);
+  box-shadow: 0 14px 34px var(--shadow), inset 0 1px rgb(255 255 255 / 4%);
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(8px) scale(.985);
+  transform-origin: bottom right;
+  transition: opacity var(--motion-duration) ease-out, transform var(--motion-duration) ease-out;
+}
+.notification.is-visible { opacity: 1; transform: translateY(0) scale(1); }
+
+.notification-icon {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--accent) 48%, var(--line));
+  border-radius: 5px;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.notification-copy { display: grid; min-width: 0; gap: 2px; line-height: 1.35; }
+.notification-copy strong { font-size: 12px; font-weight: 720; }
+.notification-copy span { color: var(--muted); font-size: 12px; }
+.notification-close { display: grid; width: 22px; height: 22px; place-items: center; padding: 0; border: 0; border-radius: 5px; cursor: pointer; color: var(--muted); background: transparent; }
+.notification-close:hover { color: var(--text); background: var(--surface-hover); }
+.notification-close:active { transform: scale(.94); }
+.notification-success { border-left-color: #64b789; }
+.notification-success .notification-icon { border-color: rgb(100 183 137 / 50%); color: #75c99a; background: rgb(100 183 137 / 11%); }
+.notification-warning { border-left-color: #d6a24d; }
+.notification-warning .notification-icon { border-color: rgb(214 162 77 / 50%); color: #e8b95d; background: rgb(214 162 77 / 11%); }
+.notification-error { border-left-color: var(--danger); }
+.notification-error .notification-icon { border-color: color-mix(in srgb, var(--danger) 58%, var(--line)); color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, transparent); }
+.notification.is-leaving { opacity: 0; transform: translateY(7px) scale(.985); pointer-events: none; }
+
+@media (max-width: 560px) { .toast-region { right: 12px; bottom: 72px; width: calc(100vw - 24px); } }
+
+/* Global interface geometry: set by Settings → Behavior. */
+:root[data-corners="square"][data-corners="square"] {
+  --radius-sm: 0px !important;
+  --radius-md: 0px !important;
+  --radius-lg: 0px !important;
+}
+:root[data-corners="square"][data-corners="square"] *,
+:root[data-corners="square"][data-corners="square"] *::before,
+:root[data-corners="square"][data-corners="square"] *::after { border-radius: 0 !important; }
+
+/* Compact controls share a strict SVG centering contract in every theme. */
+.widget-action,
+.widget-drag-handle,
+.widget-resize-handle,
+.dock-button,
+.panel-close,
+.icon-action,
+.remove-action,
+.notification-close,
+.calendar-nav,
+.currency-swap,
+.search-submit,
+.player-toggle {
+  box-sizing: border-box;
+  padding: 0;
+  line-height: 0;
+  text-indent: 0;
+}
+.widget-action,
+.widget-drag-handle,
+.widget-resize-handle,
+.dock-button,
+.panel-close,
+.icon-action,
+.remove-action,
+.notification-close,
+.calendar-nav,
+.currency-swap,
+.search-submit,
+.player-toggle { display: grid; place-items: center; }
+.widget-action > .line-icon,
+.widget-drag-handle > .line-icon,
+.widget-resize-handle > .line-icon,
+.dock-button > .line-icon,
+.panel-close > .line-icon,
+.icon-action > .line-icon,
+.remove-action > .line-icon,
+.notification-close > .line-icon,
+.calendar-nav > .line-icon,
+.currency-swap > .line-icon,
+.search-submit > .line-icon,
+.player-toggle > .line-icon {
+  display: block;
+  flex: 0 0 auto;
+  margin: 0;
+  transform: none;
+}
+
+/* When rounded mode is active, one user-selected radius governs every interface surface. */
+:root[data-corners="rounded"][data-corners="rounded"] *,
+:root[data-corners="rounded"][data-corners="rounded"] *::before,
+:root[data-corners="rounded"][data-corners="rounded"] *::after { border-radius: var(--global-corner-radius, 8px) !important; }
+

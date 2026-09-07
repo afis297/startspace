@@ -1,0 +1,76 @@
+:root {
+  color-scheme: light dark;
+  --bg-0: #0f1218;
+  --bg-1: #1b2029;
+  --surface: rgb(28 33 42 / 92%);
+  --surface-strong: #202631;
+  --surface-hover: #2b3340;
+  --text: #f0eee9;
+  --muted: #a9adb4;
+  --line: rgb(236 233 225 / 15%);
+  --accent: #d6b266;
+  --accent-contrast: #17140d;
+  --danger: #e17c76;
+  --shadow: rgb(7 9 13 / 40%);
+  --wallpaper-fallback: radial-gradient(circle at 78% 8%, rgb(214 178 102 / 10%), transparent 28%), linear-gradient(145deg, #11151d, #1e242d);
+  --workspace-background: var(--wallpaper-fallback);
+  --wallpaper-position: center;
+  --wallpaper-size: cover;
+  --motion-duration: 160ms;
+  --radius-sm: 7px;
+  --radius-md: 11px;
+  --radius-lg: 15px;
+  /* Единая типографическая база всех тем: та же, что в green-console. */
+  --font-ui: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-display: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+html,
+body,
+#app-shell { width: 100%; min-width: 100%; min-height: 100%; height: 100%; margin: 0; overflow: hidden; }
+body { color: var(--text); background: var(--bg-0); font-family: var(--font-ui); font-size: 14px; letter-spacing: .012em; }
+button,
+input,
+textarea,
+select { font: inherit; }
+button { color: inherit; }
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+::selection { color: var(--accent-contrast); background: var(--accent); }
+[hidden] { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --motion-duration: 0ms !important; }
+  *,
+  *::before,
+  *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .notification,
+  .material-menu,
+  .select-menu-list { transform: none !important; }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  #dock,
+  .side-panel,
+  .notification,
+  .widget-delete-menu,
+  .material-menu,
+  .select-menu-list { background: var(--surface-strong) !important; backdrop-filter: none !important; }
+  .desktop-widget { --widget-surface-alpha: 100% !important; --widget-blur: 0px !important; backdrop-filter: none !important; }
+}
+
+@media (prefers-contrast: more) {
+  :root { --line: color-mix(in srgb, var(--text) 58%, transparent); --muted: color-mix(in srgb, var(--text) 77%, var(--bg-0)); }
+  .desktop-widget,
+  #dock,
+  .side-panel,
+  .notification,
+  .widget-delete-menu,
+  .material-menu,
+  .select-menu-list { border-color: var(--text) !important; box-shadow: none !important; }
+  .desktop-widget { border-top-width: 2px; }
+}

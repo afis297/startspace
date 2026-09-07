@@ -1,0 +1,19 @@
+# ---> Files
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+
+# ---> Dependencies
+node_modules/
+
+# ---> Build output regenerates via build-extension.ps1 - do not track.
+dist/
+*.zip
+*.xpi
+
+# ---> Editors
+.vscode/
+.idea/
+*.swp
+*~

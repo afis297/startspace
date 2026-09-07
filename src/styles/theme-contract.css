@@ -1,0 +1,440 @@
+/*
+ * Theme contract — semantic design tokens only.
+ * Layout, spacing, font metrics and widget geometry must not depend on theme.
+ */
+:root {
+  --theme-surface-muted: color-mix(in srgb, var(--surface) 88%, var(--bg-0));
+  --theme-field-bg: color-mix(in srgb, var(--surface-strong) 88%, var(--bg-0));
+  --theme-field-text: var(--text);
+  --theme-field-line: color-mix(in srgb, var(--line) 64%, var(--text));
+  --theme-field-placeholder: color-mix(in srgb, var(--muted) 88%, transparent);
+  --theme-focus-ring: color-mix(in srgb, var(--accent) 76%, white);
+  --theme-choice-accent: var(--accent);
+  --theme-selection-bg: color-mix(in srgb, var(--accent) 44%, var(--surface));
+  --theme-selection-text: var(--text);
+  --theme-scroll-track: color-mix(in srgb, var(--bg-0) 80%, var(--surface));
+  --theme-scroll-thumb: color-mix(in srgb, var(--accent) 54%, var(--line));
+}
+
+:root[data-theme-family="console"] {
+  --theme-surface-muted: color-mix(in srgb, var(--bg-0) 84%, var(--accent));
+  --theme-field-bg: color-mix(in srgb, var(--bg-0) 90%, var(--accent));
+  --theme-field-line: color-mix(in srgb, var(--accent) 58%, var(--line));
+  --theme-focus-ring: var(--accent);
+  --theme-selection-bg: color-mix(in srgb, var(--accent) 34%, var(--bg-0));
+  --theme-scroll-track: var(--bg-0);
+  --theme-scroll-thumb: color-mix(in srgb, var(--accent) 66%, var(--line));
+}
+
+:root[data-theme-treatment="flat"] {
+  --theme-surface-muted: var(--surface);
+  --theme-field-bg: var(--surface-strong);
+  --theme-field-line: color-mix(in srgb, var(--line) 72%, var(--accent));
+  --theme-selection-bg: color-mix(in srgb, var(--accent) 34%, var(--surface));
+}
+
+::selection {
+  background: var(--theme-selection-bg);
+  color: var(--theme-selection-text);
+}
+
+.desktop-widget :is(input:not([type="range"]):not([type="checkbox"]):not([type="radio"]), textarea) {
+  background: var(--theme-field-bg);
+  border-color: var(--theme-field-line);
+  color: var(--theme-field-text);
+  caret-color: var(--theme-focus-ring);
+}
+
+.desktop-widget :is(input:not([type="range"]):not([type="checkbox"]):not([type="radio"]), textarea)::placeholder {
+  color: var(--theme-field-placeholder);
+}
+
+.desktop-widget :is(input:not([type="range"]):not([type="checkbox"]):not([type="radio"]), textarea):focus-visible {
+  border-color: var(--theme-focus-ring);
+  outline: 2px solid color-mix(in srgb, var(--theme-focus-ring) 46%, transparent);
+  outline-offset: 1px;
+}
+
+.desktop-widget :is(input[type="checkbox"], input[type="radio"]) {
+  accent-color: var(--theme-choice-accent);
+}
+
+#workspace,
+.side-panel,
+.floating-panel-body {
+  scrollbar-color: var(--theme-scroll-thumb) var(--theme-scroll-track);
+}
+
+/* Unified checkbox control: explicit idle, active and focus states. */
+:root :is(#settings-panel, #properties-panel, #workspace) input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-grid;
+  place-content: center;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+  margin: 0;
+  border: 1px solid color-mix(in srgb, var(--theme-field-line) 72%, var(--accent));
+  border-radius: var(--checkbox-radius, 4px);
+  background: color-mix(in srgb, var(--bg-0) 90%, var(--accent) 10%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--bg-0) 78%, transparent);
+  cursor: pointer;
+  transition: background var(--motion-duration), border-color var(--motion-duration), box-shadow var(--motion-duration), transform var(--motion-duration);
+}
+:root :is(#settings-panel, #properties-panel, #workspace) input[type="checkbox"]::after {
+  content: "";
+  width: 7px;
+  height: 4px;
+  border-left: 2px solid var(--theme-choice-contrast, var(--accent-contrast));
+  border-bottom: 2px solid var(--theme-choice-contrast, var(--accent-contrast));
+  transform: rotate(-45deg) scale(0);
+  transform-origin: center;
+  transition: transform var(--motion-duration);
+}
+:root :is(#settings-panel, #properties-panel, #workspace) input[type="checkbox"]:hover:not(:disabled) {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 16%, transparent);
+}
+:root :is(#settings-panel, #properties-panel, #workspace) input[type="checkbox"]:checked {
+  border-color: var(--theme-choice-accent, var(--accent));
+  background: var(--theme-choice-accent, var(--accent));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--theme-choice-accent, var(--accent)) 34%, transparent);
+}
+:root :is(#settings-panel, #properties-panel, #workspace) input[type="checkbox"]:checked::after {
+  transform: rotate(-45deg) scale(1);
+}
+:root :is(#settings-panel, #properties-panel, #workspace) input[type="checkbox"]:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--theme-focus-ring) 68%, transparent);
+  outline-offset: 2px;
+}
+:root :is(#settings-panel, #properties-panel, #workspace) input[type="checkbox"]:disabled {
+  cursor: default;
+  opacity: .48;
+}
+
+/* Widget deletion confirmation: geometry is fixed, palette comes only from the active theme. */
+:root {
+  --theme-delete-menu-bg: var(--surface-strong);
+  --theme-delete-menu-line: color-mix(in srgb, var(--accent) 54%, var(--line));
+  --theme-delete-menu-muted: color-mix(in srgb, var(--muted) 86%, var(--text));
+  --theme-delete-menu-hover: color-mix(in srgb, var(--accent) 14%, var(--surface-hover));
+}
+
+:root[data-theme-family="console"] {
+  --theme-delete-menu-bg: #000000;
+  --theme-delete-menu-line: color-mix(in srgb, var(--accent) 68%, var(--line));
+  --theme-delete-menu-hover: color-mix(in srgb, var(--accent) 16%, #000000);
+}
+
+.desktop-widget .widget-delete-menu {
+  box-sizing: border-box;
+  z-index: 60;
+  min-width: 208px;
+  gap: 5px;
+  padding: 10px;
+  border: 1px solid var(--theme-delete-menu-line) !important;
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  background: var(--theme-delete-menu-bg) !important;
+  background-image: none !important;
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--shadow) 86%, transparent) !important;
+  backdrop-filter: none !important;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+}
+
+.desktop-widget .widget-delete-menu strong {
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.desktop-widget .widget-delete-menu > span {
+  color: var(--theme-delete-menu-muted);
+  font-size: 11px;
+}
+
+.desktop-widget .widget-delete-menu-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 5px;
+}
+
+.desktop-widget .widget-delete-menu :is(.text-action, .danger-action) {
+  display: inline-flex;
+  width: 100% !important;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 !important;
+  padding: 7px 10px;
+  border: 1px solid var(--theme-delete-menu-line);
+  border-radius: var(--radius-sm);
+  box-shadow: none;
+  font: 700 12px/1 var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+  letter-spacing: .01em;
+}
+
+.desktop-widget .widget-delete-menu .text-action {
+  color: var(--text);
+  background: transparent !important;
+}
+
+.desktop-widget .widget-delete-menu .text-action:hover {
+  border-color: var(--accent);
+  color: var(--text);
+  background: var(--theme-delete-menu-hover) !important;
+}
+
+.desktop-widget .widget-delete-menu .danger-action {
+  border-color: var(--accent);
+  color: var(--accent-contrast) !important;
+  -webkit-text-fill-color: var(--accent-contrast);
+  background-color: var(--accent) !important;
+  background-image: none !important;
+}
+
+.desktop-widget .widget-delete-menu .danger-action:hover {
+  border-color: var(--accent);
+  color: var(--accent-contrast) !important;
+  -webkit-text-fill-color: var(--accent-contrast);
+  background-color: color-mix(in srgb, var(--accent) 88%, white) !important;
+  background-image: none !important;
+}
+
+.desktop-widget .widget-delete-menu :is(.text-action, .danger-action):focus-visible {
+  outline: 2px solid var(--theme-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Final action contract: no theme may inherit accent text onto an accent button. */
+:root {
+  --theme-action-text: var(--accent-contrast);
+  --theme-action-muted-text: color-mix(in srgb, var(--text) 76%, var(--surface-strong));
+  --theme-action-disabled-bg: color-mix(in srgb, var(--accent) 36%, var(--surface-strong));
+  --theme-action-disabled-line: color-mix(in srgb, var(--accent) 52%, var(--line));
+}
+
+:root :is(.primary-action, .danger-action, .dock-add, .workspace-settings-add .primary-action, .auto-layout-tools .primary-action) {
+  color: var(--theme-action-text) !important;
+  -webkit-text-fill-color: var(--theme-action-text);
+}
+
+:root :is(.text-action, .secondary-action) {
+  color: var(--text) !important;
+  -webkit-text-fill-color: var(--text);
+}
+
+:root :is(.primary-action, .danger-action, .dock-add):is(:hover, :focus-visible):not(:disabled) {
+  color: var(--theme-action-text) !important;
+  -webkit-text-fill-color: var(--theme-action-text);
+}
+
+:root :is(.text-action, .secondary-action):is(:hover, :focus-visible):not(:disabled) {
+  color: var(--text) !important;
+  -webkit-text-fill-color: var(--text);
+}
+
+:root :is(.primary-action, .danger-action, .secondary-action, .text-action, .dock-add):disabled {
+  opacity: 1 !important;
+  color: var(--theme-action-muted-text) !important;
+  -webkit-text-fill-color: var(--theme-action-muted-text);
+  border-color: var(--theme-action-disabled-line) !important;
+  background: var(--theme-action-disabled-bg) !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+}
+
+:root :is(.primary-action, .danger-action, .secondary-action, .text-action, .dock-add):disabled :is(svg, path) {
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+/* The add control is an outlined tool, not an accent-filled action button. */
+:root .dock-add,
+:root .dock-add:is(:hover, :focus-visible):not(:disabled) {
+  color: var(--accent) !important;
+  -webkit-text-fill-color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 72%, var(--line)) !important;
+  background: color-mix(in srgb, var(--accent) 8%, transparent) !important;
+  text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 38%, transparent);
+}
+
+:root .dock-add:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent) 17%, transparent) !important;
+}
+
+/* SVG has its own currentColor context in Chromium; set the plus stroke explicitly. */
+:root .dock-add > .line-icon,
+:root .dock-add > .line-icon :is(path, line, polyline) {
+  color: var(--accent) !important;
+  stroke: var(--accent) !important;
+  fill: none !important;
+  opacity: 1 !important;
+}
+
+:root .dock-add > .line-icon {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.35px;
+}
+
+/* Widget actions must visibly inherit the active theme signal in their idle state. */
+#workspace .desktop-widget .widget-action:not([data-action="remove"]) {
+  color: var(--widget-accent, var(--accent));
+}
+
+#workspace .desktop-widget .widget-action[data-action="remove"] {
+  color: var(--danger);
+}
+
+#workspace .desktop-widget .widget-action :is(svg, path, line, polyline, circle) {
+  stroke: currentColor;
+}
+
+/* Console color variants keep disabled controls readable without black lettering. */
+:root[data-theme-family="console"] {
+  --theme-action-muted-text: color-mix(in srgb, var(--accent) 74%, white);
+  --theme-action-disabled-bg: color-mix(in srgb, var(--surface-strong) 84%, var(--accent));
+  --theme-action-disabled-line: color-mix(in srgb, var(--accent) 62%, var(--line));
+}
+
+:root[data-theme-family="console"] .translator-widget .primary-action:disabled,
+:root[data-theme-family="console"] .browser-media-locate:disabled,
+:root[data-theme-family="console"] .game-widget .text-action:disabled {
+  color: var(--theme-action-muted-text) !important;
+  -webkit-text-fill-color: var(--theme-action-muted-text) !important;
+}
+
+/* Console actions are outlined controls: the label remains the active signal, never near-black. */
+:root[data-theme-family="console"] #workspace .desktop-widget .primary-action {
+  border-color: var(--widget-accent, var(--accent)) !important;
+  color: var(--widget-accent, var(--accent)) !important;
+  -webkit-text-fill-color: var(--widget-accent, var(--accent)) !important;
+  background: color-mix(in srgb, var(--widget-accent, var(--accent)) 10%, transparent) !important;
+  box-shadow: none !important;
+}
+
+:root[data-theme-family="console"] #workspace .desktop-widget .primary-action:is(:hover, :focus-visible):not(:disabled) {
+  color: var(--widget-accent, var(--accent)) !important;
+  -webkit-text-fill-color: var(--widget-accent, var(--accent)) !important;
+  background: color-mix(in srgb, var(--widget-accent, var(--accent)) 18%, transparent) !important;
+}
+
+:root[data-theme-family="console"] #workspace .desktop-widget .primary-action:disabled {
+  color: var(--theme-action-muted-text) !important;
+  -webkit-text-fill-color: var(--theme-action-muted-text) !important;
+  background: var(--theme-action-disabled-bg) !important;
+}
+
+/* Main in-widget actions use the same readable outlined accent across every theme. */
+#workspace .desktop-widget .primary-action,
+#workspace .desktop-widget .game-widget .text-action {
+  border-color: var(--widget-accent, var(--accent)) !important;
+  color: var(--widget-accent, var(--accent)) !important;
+  -webkit-text-fill-color: var(--widget-accent, var(--accent)) !important;
+  background: color-mix(in srgb, var(--widget-accent, var(--accent)) 10%, transparent) !important;
+  box-shadow: none !important;
+}
+
+#workspace .desktop-widget .primary-action:is(:hover, :focus-visible):not(:disabled),
+#workspace .desktop-widget .game-widget .text-action:is(:hover, :focus-visible):not(:disabled) {
+  color: var(--widget-accent, var(--accent)) !important;
+  -webkit-text-fill-color: var(--widget-accent, var(--accent)) !important;
+  background: color-mix(in srgb, var(--widget-accent, var(--accent)) 18%, transparent) !important;
+}
+
+#workspace .desktop-widget .primary-action:disabled,
+#workspace .desktop-widget .game-widget .text-action:disabled {
+  color: color-mix(in srgb, var(--widget-accent, var(--accent)) 78%, var(--text)) !important;
+  -webkit-text-fill-color: color-mix(in srgb, var(--widget-accent, var(--accent)) 78%, var(--text)) !important;
+  border-color: color-mix(in srgb, var(--widget-accent, var(--accent)) 52%, var(--line)) !important;
+  background: color-mix(in srgb, var(--widget-accent, var(--accent)) 7%, var(--surface-strong)) !important;
+}
+
+/* The dock settings gear is an outlined accent action in every palette.
+   The dock control already reserves a 1px transparent border, so this cannot change its 38px geometry. */
+:root .dock-settings:not(:disabled) {
+  color: var(--accent) !important;
+  -webkit-text-fill-color: var(--accent) !important;
+  border-color: color-mix(in srgb, var(--accent) 68%, var(--line)) !important;
+}
+
+:root .dock-settings:is(:hover, :focus-visible):not(:disabled) {
+  color: var(--accent) !important;
+  -webkit-text-fill-color: var(--accent) !important;
+  border-color: var(--accent) !important;
+}
+
+:root .dock-settings svg {
+  color: var(--accent) !important;
+  stroke: var(--accent) !important;
+}
+
+:root .dock-settings:disabled,
+:root .dock-settings:disabled svg {
+  color: var(--theme-action-muted-text) !important;
+  -webkit-text-fill-color: var(--theme-action-muted-text) !important;
+  stroke: var(--theme-action-muted-text) !important;
+}
+
+/* Final dock geometry: every primary control shares one measured control box. */
+:root {
+  --dock-control-size: 38px;
+}
+
+#dock {
+  align-items: center;
+}
+
+#dock .dock-button {
+  box-sizing: border-box;
+  flex: 0 0 var(--dock-control-size);
+  width: var(--dock-control-size);
+  min-width: var(--dock-control-size);
+  height: var(--dock-control-size);
+  min-height: var(--dock-control-size);
+  padding: 0;
+  line-height: 1;
+}
+
+#dock .workspace-switcher-trigger {
+  box-sizing: border-box;
+  align-self: center;
+  height: var(--dock-control-size);
+  min-height: var(--dock-control-size);
+}
+
+#dock .dock-settings > .line-icon {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.1px;
+}
+
+/* A destructive confirmation is always a filled action, never dark text on a dark surface. */
+#workspace .desktop-widget .widget-delete-menu .danger-action,
+#workspace .desktop-widget .widget-delete-menu .danger-action:is(:hover, :focus-visible):not(:disabled) {
+  color: var(--accent-contrast) !important;
+  -webkit-text-fill-color: var(--accent-contrast) !important;
+  background: var(--accent) !important;
+  background-color: var(--accent) !important;
+}
+
+#workspace .desktop-widget .widget-delete-menu .danger-action:disabled {
+  color: var(--theme-action-muted-text) !important;
+  -webkit-text-fill-color: var(--theme-action-muted-text) !important;
+  background: var(--theme-action-disabled-bg) !important;
+}
+
+/* The midnight surface rule also targets generic buttons. Keep the destructive confirmation filled above it. */
+:root[data-theme] #workspace .desktop-widget .widget-delete-menu .danger-action,
+:root[data-theme] #workspace .desktop-widget .widget-delete-menu .danger-action:is(:hover, :focus-visible):not(:disabled) {
+  color: var(--accent-contrast) !important;
+  -webkit-text-fill-color: var(--accent-contrast) !important;
+  background: var(--accent) !important;
+  background-color: var(--accent) !important;
+}

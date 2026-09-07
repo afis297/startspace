@@ -1,0 +1,16 @@
+{
+    "name":  "my-free-layout-tab",
+    "version":  "5.0.0",
+    "private":  true,
+    "type":  "module",
+    "scripts":  {
+                    "test:browser":  "node tests/browser-smoke.mjs",
+                    "check":  "npm run test:core",
+                    "test:core":  "node tests/core-smoke.mjs && node tests/module-smoke.mjs && node tests/migration-smoke.mjs && node tests/backup-smoke.mjs && node tests/data-services-smoke.mjs && node tests/permissions-smoke.mjs && node tests/planning-smoke.mjs && node tests/persistence-restart-smoke.mjs",
+                    "test:all":  "npm run test:core && node tests/build-extension-contract-smoke.mjs && node tests/css-cascade-contract-smoke.mjs && node tests/delete-menu-contract-smoke.mjs && node tests/extension-api-smoke.mjs && node tests/firefox-manifest-smoke.mjs && node tests/masonry-layout-smoke.mjs && node tests/menu-accessibility-smoke.mjs && node tests/theme-contrast-smoke.mjs && node tests/undo-history-smoke.mjs && node tests/web-panel-empty-state-smoke.mjs",
+                    "test":  "npm run check"
+                },
+    "engines":  {
+                    "node":  "\u003e=22 \u003c23"
+                }
+}
