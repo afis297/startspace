@@ -20,3 +20,6 @@ dist/
 .idea/
 *.swp
 *~
+
+# ---> Local agent notes, not for publish.
+AGENTS.md

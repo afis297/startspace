@@ -7,9 +7,8 @@
 | Документ | Когда использовать |
 |---|---|
 | [user-guide.md](./user-guide.md) | Виджеты, мозаика, настройки, панель сайтов, экспорт, диагностика. |
-| [widget-function-map-2026-08-16.md](./widget-function-map-2026-08-16.md) | Функции, конфигурация и взаимодействия виджетов. |
-| [design-guide-2026-08-16.md](./design-guide-2026-08-16.md) | Темы, CSS-каскад, плотность, типографика. |
-| [rest-widget-audio-notes.md](./rest-widget-audio-notes.md) | Источники и лицензирование звуков виджета отдыха. |
+| [widget-function-map.md](./widget-function-map.md) | Функции, конфигурация и взаимодействия виджетов. |
+| [design-guide.md](./design-guide.md) | Темы, CSS-каскад, плотность, типографика. |
 | [youtube-embed-notes.md](./youtube-embed-notes.md) | Поведение YouTube и медиаплеера. |
 
 ## Сводка актуального состояния

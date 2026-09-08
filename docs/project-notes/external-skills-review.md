@@ -4,7 +4,7 @@
 
 Каталог содержит десять направлений: `animate`, `animation-vocabulary`, `apple-design`, `ask-sonner`, `emil-design-eng`, `find-animation-opportunities`, `improve-animations`, `pick-ui-library`, `prototype`, `review-animations`.
 
-## Релевантность для My Free Layout Tab
+## Релевантность для Startspace
 
 | Навык | Применимость |
 |---|---|

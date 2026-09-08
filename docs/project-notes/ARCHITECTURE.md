@@ -1,6 +1,6 @@
-# My Free Layout Tab — архитектура V5
+# Startspace — архитектура V5
 
-> **Статус:** актуальная сводка слоёв V5. Для полного поведения отдельных виджетов используйте [карту функций](../widget-function-map-2026-08-16.md); для навигации — [индекс документации](../README.md).
+> **Статус:** сводка слоёв. Для поведения отдельных виджетов — [карта функций](../widget-function-map.md); для навигации — [индекс документации](../README.md).
 
 ## Цель
 
@@ -38,11 +38,16 @@ V5 сохраняет расширение без фреймворков и сб
   }],
   settings: {
     themeId: "midnight",
-    wallpaper: { mode: "gradient", value: "" },
-    dock: { position: "bottom", autoHide: false, compact: false },
-    behavior: { snapToGrid: true, gridSize: 12, lockWidgets: false, roundedCorners: true }
+    customTheme: {},
+    wallpaper: { mode: "gradient", value: "", position: "center", size: "cover" },
+    dock: { position: "bottom", autoHide: false, compact: false, hidden: false, autoReveal: false },
+    behavior: { snapToGrid: true, gridSize: 12, lockWidgets: false, reduceMotion: false, animationSpeed: "normal", roundedCorners: true, cornerRadius: 8, autoAdjustMosaic: true, presentationMode: false },
+    webPanel: { enabled: true, edge: "right", width: 340, scale: 100, fontScale: 100, transparency: 0, panelMaterial: "opaque" },
+    search: { defaultEngine: "google", openInNewTab: true },
+    onboarding: { completed: false },
+    locale: "ru-RU"
   },
-  ui: { nextZIndex: 101 }
+  ui: { nextZIndex: 100 }
 }
 ```
 

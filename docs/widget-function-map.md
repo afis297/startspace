@@ -1,8 +1,6 @@
 # Карта функций и архитектуры виджетов
 
-**Проект:** My Free Layout Tab
-**Дата анализа:** 16 августа 2026
-**Назначение документа:** рабочая карта кода, по которой можно менять или расширять виджеты без повторного объяснения их базовой логики.
+> Живой технический справочник Startspace: по нему меняют и расширяют виджеты. Обновлять при смене контракта виджета, новом типе, смене `config` или миграции состояния.
 
 > Каждый виджет — это не самостоятельная страница, а экземпляр в общем `store`. Его декларация определяет начальные данные и доступные свойства; интерфейс создаётся один раз функцией `create`, после чего синхронизируется функцией `update`.
 
@@ -72,12 +70,12 @@ store.subscribe → workspace / panels / persistence
 | Группа | Поля | Как применяется |
 |---|---|---|
 | Поверхность | Материал, прозрачность, фон, блюр, тень | `workspace` устанавливает CSS-переменные `--widget-surface-*`, `--widget-blur`, `--widget-shadow`. |
-| Граница | Тематический акцент, свой акцент, цвет/толщина границы, скругление | Свой акцент автоматически выключает `useThemeAccent`; глобальный переключатель углов приоритетнее локального радиуса. |
+| Граница | Тематический акцент, свой акцент, цвет/толщина границы | Свой акцент автоматически выключает `useThemeAccent`. Пер-виджетного радиуса нет: углы задаёт только глобальный `cornerRadius`. |
 | Текст | Цвет, размер текста, насыщенность, выравнивание | `--widget-font-scale`, `--widget-font-weight`, `--widget-content-align`; для переработанных виджетов размеры дополнительно привязаны к `--widget-font-scale`. |
 | Масштаб | Автомасштабирование, ручной масштаб интерфейса | Вычисляется из фактического и базового размера виджета; влияет на внутренний `widget-scale-layer`, а не на рамку. |
 | Макет | Отступы, контраст и цвета заголовка | Передаются в CSS-переменные рабочего контейнера. |
 
-> Глобальные углы работают так: при `settings.behavior.roundedCorners === false` рабочая область записывает `--widget-radius: 0px`; в противном случае использует `var(--radius-md)`. Поэтому калькулятор, задачи, ссылки и календарь должны использовать переменную радиуса, а не литеральные значения в пикселях.
+> Глобальные углы работают так: `workspace` записывает `--widget-radius` из `settings.behavior.cornerRadius` (по умолчанию 8px, `0px` при выключенных скруглениях). Поэтому калькулятор, задачи, ссылки и календарь должны использовать переменную радиуса, а не литеральные значения в пикселях.
 
 ## 4. Каталог виджетов и их функции
 
@@ -91,7 +89,6 @@ store.subscribe → workspace / panels / persistence
 | `link` | `text`, `url`, `icon` | Открывает настроенный URL | Адрес открывается через безопасный helper. |
 | `quote` | `index` | Переключение фразы | При первом создании продвигает индекс в очереди цитат. |
 | `bookmarks` | `linksText`, `links`, `showDomain` | Только открытие сохранённой ссылки | Добавление/изменение выполняется исключительно через свойства; старый стандартный набор миграционно скрывается. |
-| `today-tasks` | `followCalendar`, `date`, `tasksByDate` | Список задач для выбранного дня, Google Tasks, переход к календарю | **Устаревшая связь:** ищет `daily-calendar`, который удалён из реестра. В текущем коде режим `followCalendar` и кнопка перехода фактически не найдут календарь. |
 
 ### 4.2. Календарь и задачи: действующая связь
 
@@ -181,6 +178,13 @@ store.subscribe → workspace / panels / persistence
 - `src/app/bootstrap.js`
 - `src/app/store.js`
 - `src/app/persistence.js`
+- `src/app/backup-service.js`
+- `src/app/geometry.js`
+- `src/app/masonry-layout.js`
+- `src/app/undo-history.js`
+- `src/app/workspace-manager.js`
+- `src/app/workspace-templates.js`
+- `src/app/shortcuts.js`
 - `src/widgets/registry.js`
 - `src/widgets/helpers.js`
 - `src/widgets/basic-definitions.js`
@@ -189,11 +193,16 @@ store.subscribe → workspace / panels / persistence
 - `src/widgets/search-definition.js`
 - `src/widgets/rest-definition.js`
 - `src/services/data-services.js`
+- `src/services/permissions.js`
+- `src/services/extension-api.js`
+- `src/services/system-metrics.js`
+- `src/services/browser-media-controller.js`
+- `src/themes/theme-manager.js`
 - `src/ui/workspace.js`
 - `src/ui/properties-panel.js`
 - `src/ui/dock.js`
-
-> Этот документ фиксирует анализ текущей ветки кода. Его следует обновлять при изменении контракта виджета, добавлении нового типа, смене структуры `config` или очередной миграции состояния.
+- `src/ui/widget-packs.js`
+- `src/ui/command-palette.js`
 
 
 ## 10. Актуализация после редизайна задач и панелей

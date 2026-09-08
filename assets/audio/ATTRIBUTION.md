@@ -18,4 +18,4 @@
 - `rest-thunder-original.mp3` — original AI-generated distant thunderstorm ambience, created for this project.
 - `rest-lofi-original.mp3` — original AI-generated instrumental lo-fi ambience, created for this project.
 
-- est-wind-v3.mp3 — original AI-generated natural wind ambience with outdoor gusts, created for this project.
+- `rest-wind-v3.mp3` — original AI-generated natural wind ambience with outdoor gusts, created for this project.
