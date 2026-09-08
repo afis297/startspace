@@ -12,6 +12,9 @@ dist/
 *.zip
 *.xpi
 
+# ---> Manual release uploads.
+билды/
+
 # ---> Editors
 .vscode/
 .idea/
